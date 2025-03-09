@@ -12,7 +12,7 @@ export const lightTheme = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  title:{
+  title: {
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 20,
@@ -32,6 +32,17 @@ export const lightTheme = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  cardBackground: {
+    backgroundColor: "#FFFFFF", // Fondo de las tarjetas en tema claro
+  },
+  input: {
+    backgroundColor: "#F5F5F5",
+    color: "#000000",
+    borderColor: "#DDD",
+  },
+  linkText: {
+    color: "#3498db",
+  },
 });
 
 export const darkTheme = StyleSheet.create({
@@ -41,7 +52,7 @@ export const darkTheme = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  title:{
+  title: {
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 20,
@@ -66,4 +77,15 @@ export const darkTheme = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-});
+  cardBackground: {
+    backgroundColor: "#1E1E1E", // Fondo de las tarjetas en tema oscuro
+  },
+  input: {
+    backgroundColor: "#2D2D2D",
+    color: "#FFFFFF",
+    borderColor: "#444",
+  },
+  linkText: {
+    color: "#1abc9c",
+  },
+})

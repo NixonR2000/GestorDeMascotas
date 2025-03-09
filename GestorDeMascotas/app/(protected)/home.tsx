@@ -3,10 +3,14 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated } from "react-native
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/context/ThemeContext";
+import { darkTheme, lightTheme } from "@/styles/themes";
 
 export default function HomeScreen() {
   const router = useRouter();
   const { user, logout } = useAuth();
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkTheme : lightTheme;
 
   const [scale] = useState(new Animated.Value(1));
 
@@ -19,15 +23,42 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Ionicons name="home-outline" size={100} color="#3A4750" style={styles.iconMain} />
+    <View style={[styles.container, { backgroundColor: themeStyles.container.backgroundColor }]}>
+      <Ionicons name="home-outline" size={100} color={themeStyles.text.color} style={styles.iconMain} />
 
-      <Text style={styles.welcomeText}>¡Hola, {user?.email || "Usuario"}!</Text>
-      <Text style={styles.subText}>Bienvenido a tu panel de control</Text>
+      <Text style={[styles.welcomeText, { color: themeStyles.text.color }]}>¡Hola, {user?.email || "Usuario"}!</Text>
+      <Text style={[styles.subText, { color: themeStyles.text.color }]}>Bienvenido a tu panel de control</Text>
 
+      {/* Botón para Recordatorios de Cuidados */}
       <Animated.View style={[styles.animatedView, { transform: [{ scale }] }]}>
-        <TouchableOpacity 
-          style={styles.button} 
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: themeStyles.button.backgroundColor }]}
+          onPress={() => router.push("/reminders")}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+        >
+          <Ionicons name="notifications-outline" size={28} color="white" />
+          <Text style={styles.buttonText}>Recordatorios de Cuidados</Text>
+        </TouchableOpacity>
+      </Animated.View>
+
+      {/* Botón para Historial Veterinario */}
+      <Animated.View style={[styles.animatedView, { transform: [{ scale }] }]}>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: themeStyles.button.backgroundColor }]}
+          onPress={() => router.push("/vet-history")}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+        >
+          <Ionicons name="medical-outline" size={28} color="white" />
+          <Text style={styles.buttonText}>Historial Veterinario</Text>
+        </TouchableOpacity>
+      </Animated.View>
+
+      {/* Botón para Perfil */}
+      <Animated.View style={[styles.animatedView, { transform: [{ scale }] }]}>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: themeStyles.button.backgroundColor }]}
           onPress={() => router.push("/tabs/profile")}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
@@ -37,11 +68,12 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </Animated.View>
 
+      {/* Botón para Inventario */}
       <Animated.View style={[styles.animatedView, { transform: [{ scale }] }]}>
-        <TouchableOpacity 
-          style={styles.button} 
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: themeStyles.button.backgroundColor }]}
           onPress={() => router.push("/inventory/inventory")}
-          onPressIn={handlePressOut}
+          onPressIn={handlePressIn}
           onPressOut={handlePressOut}
         >
           <Ionicons name="cube-outline" size={28} color="white" />
@@ -49,9 +81,10 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </Animated.View>
 
+      {/* Botón para Cerrar Sesión */}
       <Animated.View style={[styles.animatedView, { transform: [{ scale }] }]}>
-        <TouchableOpacity 
-          style={styles.logoutButton} 
+        <TouchableOpacity
+          style={[styles.logoutButton, { backgroundColor: "#D9534F" }]} // Color rojo fijo
           onPress={() => { logout(); router.replace("/login"); }}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
@@ -70,7 +103,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#F5F7FA",
   },
   iconMain: {
     marginBottom: 20,
@@ -78,13 +110,11 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "#3A4750",
     marginBottom: 5,
     textAlign: "center",
   },
   subText: {
     fontSize: 16,
-    color: "#7D8C97",
     marginBottom: 30,
     textAlign: "center",
   },
@@ -94,7 +124,6 @@ const styles = StyleSheet.create({
   },
   button: {
     flexDirection: "row",
-    backgroundColor: "#4A90E2",
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 12,
@@ -107,7 +136,6 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     flexDirection: "row",
-    backgroundColor: "#D9534F",
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 12,
@@ -124,4 +152,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 10,
   },
-});
+})

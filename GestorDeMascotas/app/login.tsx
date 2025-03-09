@@ -1,4 +1,3 @@
-
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from "react-native";
@@ -26,36 +25,57 @@ export default function LoginScreen() {
 
   return (
     <View style={[themeStyles.container, styles.container]}>
+      {/* Imagen de la mascota */}
       <Image
         source={require("../assets/images/PetGestor.jpg")}
         style={styles.avatar}
       />
-      <Text style={themeStyles.title}>{i18n.t("welcome")}</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Correo electrónico"
-        placeholderTextColor="#777"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+      {/* Título de bienvenida */}
+      <Text style={[styles.title, { color: themeStyles.text.color }]}>
+        {i18n.t("welcome")}
+      </Text>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      {/* Campo de entrada para el correo electrónico */}
+      <View style={[styles.inputContainer, { borderColor: themeStyles.input.borderColor }]}>
+        <Ionicons name="mail-outline" size={24} color={themeStyles.text.color} style={styles.inputIcon} />
+        <TextInput
+          style={[styles.input, { color: themeStyles.text.color, backgroundColor: themeStyles.input.backgroundColor }]}
+          placeholder="Correo electrónico"
+          placeholderTextColor={themeStyles.text.color}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+      </View>
+
+      {/* Botón de Ingresar */}
+      <TouchableOpacity style={[styles.button, { backgroundColor: themeStyles.button.backgroundColor }]} onPress={handleLogin}>
         <Text style={styles.buttonText}>Ingresar</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.googleButton} onPress={() => { }}>
+      {/* Separador */}
+      <View style={styles.separator}>
+        <View style={[styles.separatorLine, { backgroundColor: themeStyles.text.color }]} />
+        <Text style={[styles.separatorText, { color: themeStyles.text.color }]}>o</Text>
+        <View style={[styles.separatorLine, { backgroundColor: themeStyles.text.color }]} />
+      </View>
+
+      {/* Botón de Ingresar con Google */}
+      <TouchableOpacity style={[styles.googleButton, { backgroundColor: themeStyles.container.backgroundColor }]} onPress={() => { }}>
         <Image
           source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" }}
           style={styles.googleIcon}
         />
-        <Text style={styles.buttonText}>Ingresar con Google</Text>
+        <Text style={[styles.googleButtonText, { color: themeStyles.text.color }]}>Ingresar con Google</Text>
       </TouchableOpacity>
 
+      {/* Enlace para registrarse */}
       <TouchableOpacity onPress={() => router.push("/register")}>
-        <Text style={styles.linkText}>¿No tienes cuenta? Regístrate</Text>
+        <Text style={[styles.linkText, { color: themeStyles.linkText.color }]}>
+          ¿No tienes cuenta? <Text style={[styles.linkHighlight, { color: themeStyles.button.backgroundColor }]}>Regístrate</Text>
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -69,42 +89,67 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   avatar: {
-    height: 120,
-    width: 120,
-    borderRadius: 60,
-    borderWidth: 2,
-    borderColor: "#4C6EF5",
+    height: 150,
+    width: 150,
+    borderRadius: 75,
+    marginBottom: 20,
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#2D2E32",
     textAlign: "center",
   },
-  linkText: { marginTop: 10, color: "#007bff", textDecorationLine: "underline" },
-  input: {
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     width: "100%",
-    height: 50,
     borderWidth: 1,
-    borderColor: "#DDD",
     borderRadius: 10,
     paddingHorizontal: 15,
-    backgroundColor: "white",
     marginBottom: 15,
+  },
+  inputIcon: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 50,
     fontSize: 16,
   },
   button: {
-    backgroundColor: "#4A90E2",
     padding: 15,
     borderRadius: 10,
     width: "100%",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  separator: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    marginVertical: 15,
+  },
+  separatorLine: {
+    flex: 1,
+    height: 1,
+  },
+  separatorText: {
+    marginHorizontal: 10,
+    fontSize: 16,
   },
   googleButton: {
     flexDirection: "row",
-    backgroundColor: "#0e1733",
     padding: 15,
     borderRadius: 10,
     width: "100%",
@@ -112,15 +157,29 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 1,
     borderColor: "#DDD",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
   },
   googleIcon: {
     width: 24,
     height: 24,
     marginRight: 10,
+  },
+  googleButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  linkText: {
+    marginTop: 10,
+    fontSize: 14,
+    textAlign: "center",
+  },
+  linkHighlight: {
+    fontWeight: "bold",
+    textDecorationLine: "underline",
   },
 });

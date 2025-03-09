@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 type User = { email: string } | null;
 
@@ -20,6 +20,20 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User>(null);
   const [isAllowed, setIsAllowed] = useState<boolean>(false);
+
+  // Verificar el token al montar el componente
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem("authToken");
+      if (token) {
+        setIsAllowed(true); // Permitir acceso si el token existe
+      } else {
+        setIsAllowed(false); // Denegar acceso si no hay token
+      }
+    };
+
+    checkToken();
+  }, []);
 
   const login = async (email: string) => {
     const isValidEmail = email.endsWith("@gmail.com");
