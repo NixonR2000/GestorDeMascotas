@@ -5,12 +5,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { darkTheme, lightTheme } from "@/styles/themes";
 import { useTheme } from "@/context/ThemeContext";
 import { i18n } from "@/context/LanguageContext";
-import { useAuth } from "@/context/AuthContext";
+import { useDispatch } from "react-redux"; // Importa useDispatch de Redux
+import { loginUser } from "@/redux/slices/userSlice"; // Importa la acción de login de Redux
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const router = useRouter();
-  const { login } = useAuth();
+  const dispatch = useDispatch(); // Obtén la función dispatch de Redux
   const { theme } = useTheme();
   const themeStyles = theme === "dark" ? darkTheme : lightTheme;
 
@@ -19,8 +20,15 @@ export default function LoginScreen() {
       Alert.alert("Error", "Solo correos @gmail.com pueden ingresar"); // Validación de correo
       return;
     }
-    await login(email);
-    router.replace("/home");
+
+    const user = {
+      name: "Usuario", // Nombre por defecto
+      email,
+      password: "123456", // Contraseña por defecto (puedes cambiarla)
+    };
+
+    dispatch(loginUser(user)); // Dispara la acción de login de Redux
+    router.replace("/home"); // Redirige al home después del login
   };
 
   return (
@@ -40,7 +48,8 @@ export default function LoginScreen() {
       <View style={[styles.inputContainer, { borderColor: themeStyles.input.borderColor }]}>
         <Ionicons name="mail-outline" size={24} color={themeStyles.text.color} style={styles.inputIcon} />
         <TextInput
-          style={[styles.input, { color: themeStyles.text.color, backgroundColor: themeStyles.input.backgroundColor }]}
+          style={[styles.input, { color: themeStyles.text.color, backgroundColor: 
+            themeStyles.input.backgroundColor }]}
           placeholder="Correo electrónico"
           placeholderTextColor={themeStyles.text.color}
           value={email}
@@ -51,7 +60,8 @@ export default function LoginScreen() {
       </View>
 
       {/* Botón de Ingresar */}
-      <TouchableOpacity style={[styles.button, { backgroundColor: themeStyles.button.backgroundColor }]} onPress={handleLogin}>
+      <TouchableOpacity style={[styles.button, { backgroundColor: themeStyles.button.backgroundColor }]} 
+      onPress={handleLogin}>
         <Text style={styles.buttonText}>Ingresar</Text>
       </TouchableOpacity>
 
@@ -63,9 +73,11 @@ export default function LoginScreen() {
       </View>
 
       {/* Botón de Ingresar con Google */}
-      <TouchableOpacity style={[styles.googleButton, { backgroundColor: themeStyles.container.backgroundColor }]} onPress={() => { }}>
+      <TouchableOpacity style={[styles.googleButton, { backgroundColor: themeStyles.container.
+        backgroundColor }]} onPress={() => { }}>
         <Image
-          source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" }}
+          source={{ uri: 
+"https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" }}
           style={styles.googleIcon}
         />
         <Text style={[styles.googleButtonText, { color: themeStyles.text.color }]}>Ingresar con Google</Text>

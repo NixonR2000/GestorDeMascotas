@@ -11,17 +11,17 @@ export default function InventarioLayout() {
       }}
     >
       <Tabs.Screen
-        name="inventory"
+        name="register"
         options={{
-          title: "Inventario",
+          title: "Datos Mascotas",
           tabBarIcon: ({ color, size }) => <Ionicons name="list-outline" size={size} color={color} />,
         }}
       />
 
       <Tabs.Screen
-        name="addInventory"
+        name="addRegister"
         options={{
-          title: "Añadir Producto",
+          title: "Registrar Mascota",
           tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={size} color={color} />,
         }}
       />

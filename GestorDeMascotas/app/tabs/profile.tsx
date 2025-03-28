@@ -14,16 +14,12 @@ export default function ProfileScreen() {
 
   // Datos de ejemplo del dueño
   const userData = {
-    name: "Juan Pérez",
-    email: "juan.perez@example.com",
-    username: "@juanperez",
+    name: "Nixon Rosales",
+    email: "nixonrosales2000@gmail.com",
+    username: "@nixonrosales",
     phone: "+52 55 1234 5678",
-    address: "Calle Falsa 123, Ciudad de México",
-    memberSince: "2022",
-    pets: [
-      { name: "Max", type: "Perro" },
-      { name: "Luna", type: "Gato" },
-    ],
+    address: "Calle Falsa 123, Honduras-San Pedro Sula",
+    memberSince: "2025",
   };
 
   return (
@@ -41,6 +37,7 @@ export default function ProfileScreen() {
 
         {/* Información del dueño */}
         <View style={[styles.infoContainer, { backgroundColor: themeStyles.cardBackground.backgroundColor }]}>
+          <Text style={[styles.sectionTitle, { color: themeStyles.text.color }]}>Información Personal</Text>
           <View style={styles.infoRow}>
             <Ionicons name="person" size={24} color="#4C6EF5" />
             <Text style={[styles.infoText, { color: themeStyles.text.color }]}>{userData.username}</Text>
@@ -62,19 +59,6 @@ export default function ProfileScreen() {
           </View>
         </View>
 
-        {/* Mascotas registradas */}
-        <View style={[styles.petsContainer, { backgroundColor: themeStyles.cardBackground.backgroundColor }]}>
-          <Text style={[styles.sectionTitle, { color: themeStyles.text.color }]}>Mascotas Registradas</Text>
-          {userData.pets.map((pet, index) => (
-            <View key={index} style={styles.petRow}>
-              <Ionicons name="paw" size={24} color="#4C6EF5" />
-              <Text style={[styles.petText, { color: themeStyles.text.color }]}>
-                {pet.name} ({pet.type})
-              </Text>
-            </View>
-          ))}
-        </View>
-
         {/* Botones de acción */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
@@ -86,12 +70,19 @@ export default function ProfileScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.buttonLogout, { backgroundColor: "#FF4C4C" }]}
-            onPress={() => { logout(); router.replace("/home"); }}
-          >
-            <Ionicons name="log-out" size={20} color="white" />
-            <Text style={styles.buttonText}>Cerrar Sesión</Text>
-          </TouchableOpacity>
+  style={[styles.buttonLogout, { backgroundColor: "#FF4C4C" }]}
+  onPress={async () => {
+    console.log("Cerrando sesión..."); // Depuración
+    await logout(); // Cierra la sesión
+    console.log("Redirigiendo a /home..."); // Depuración
+    setTimeout(() => {
+      router.replace("/(protected)/home"); // Redirige a /home después de un pequeño retraso
+    }, 100);
+  }}
+>
+  <Ionicons name="log-out" size={20} color="white" />
+  <Text style={styles.buttonText}>Cerrar Sesión</Text>
+</TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -149,30 +140,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 10,
   },
-  petsContainer: {
-    width: "100%",
-    padding: 20,
-    borderRadius: 15,
-    marginVertical: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
-  },
-  petRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 5,
-  },
-  petText: {
-    fontSize: 16,
-    marginLeft: 10,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -216,4 +187,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 10,
   },
-})
+});

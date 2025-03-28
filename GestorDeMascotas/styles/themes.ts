@@ -43,6 +43,10 @@ export const lightTheme = StyleSheet.create({
   linkText: {
     color: "#3498db",
   },
+  navBar: {
+    backgroundColor: "#F5F5F5", // Fondo de la barra de navegación en tema claro
+    borderBottomColor: "#DDD", // Color del borde inferior en tema claro
+  },
 });
 
 export const darkTheme = StyleSheet.create({
@@ -88,4 +92,8 @@ export const darkTheme = StyleSheet.create({
   linkText: {
     color: "#1abc9c",
   },
-})
+  navBar: {
+    backgroundColor: "#1E1E1E", // Fondo de la barra de navegación en tema oscuro
+    borderBottomColor: "#333", // Color del borde inferior en tema oscuro
+  },
+});
